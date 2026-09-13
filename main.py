@@ -1,4 +1,4 @@
-"""Orchestrate stock collection, signal evaluation, and alert dispatch."""
+"""Main orchestration script for the TradePulse monitoring pipeline."""
 
 from agents.collector import fetch_stock_data
 from agents.threshold import evaluate_thresholds
@@ -7,24 +7,23 @@ from agents.dispatcher import dispatch_alert
 
 
 def run_pipeline(symbol: str, rules: dict, price_history: list, api_key: str) -> dict:
-	"""Run all monitoring steps and return their execution summary."""
+	"""Fetch data, evaluate rules, detect anomalies, and dispatch alerts."""
 	stock_data = fetch_stock_data(symbol, api_key)
 	threshold_result = evaluate_thresholds(stock_data, rules)
 	anomaly_result = detect_anomaly(price_history)
 
 	threshold_triggered = bool(threshold_result)
 	anomaly_triggered = bool(anomaly_result)
-	alert_dispatched = False
+	dispatched_alerts = []
 
-	if threshold_triggered or anomaly_triggered:
-		dispatch_alert(
-			{
-				"symbol": symbol,
-				"threshold": threshold_result,
-				"anomaly": anomaly_result,
-			}
+	if threshold_triggered:
+		dispatched_alerts.append(
+			dispatch_alert(symbol, "threshold", threshold_result)
 		)
-		alert_dispatched = True
+	if anomaly_triggered:
+		dispatched_alerts.append(
+			dispatch_alert(symbol, "anomaly", anomaly_result)
+		)
 
 	return {
 		"symbol": symbol,
@@ -33,7 +32,7 @@ def run_pipeline(symbol: str, rules: dict, price_history: list, api_key: str) ->
 		"anomaly_result": anomaly_result,
 		"threshold_triggered": threshold_triggered,
 		"anomaly_triggered": anomaly_triggered,
-		"alert_dispatched": alert_dispatched,
+		"dispatched_alerts": dispatched_alerts,
 	}
 
 
@@ -42,7 +41,7 @@ if __name__ == "__main__":
 		run_pipeline(
 			symbol="AAPL",
 			rules={"min_price": 150.0, "max_price": 250.0},
-			price_history=[178.2, 179.1, 178.7, 180.0, 181.4],
-			api_key="demo-api-key",
+			price_history=[190.0, 191.2, 190.8, 192.1, 191.7],
+			api_key="mock-api-key",
 		)
 	)
