@@ -38,5 +38,6 @@ def fetch_stock_data(symbol: str, api_key: str) -> dict:
 		return None
 
 if __name__ == "__main__":
-    # Quick local test
-    print(fetch_stock_data("AAPL", "demo"))
+    # Test execution with IBM demo endpoint
+    result = fetch_stock_data("IBM", "demo")
+    print("Collector Output:", result)
