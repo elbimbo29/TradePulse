@@ -48,3 +48,52 @@ TradePulse/
 * **AI & NLP Intelligence:** [OpenAI API](https://openai.com/) (automated news sentiment classification and market diagnosis)
 * **Data Visualization:** [Plotly](https://plotly.com/) (interactive time-series charts, dynamic threshold overlays)
 * **Version Control & Collaboration:** Git & GitHub
+
+---
+
+## 📐 Architecture Diagram
+
+The following diagram illustrates how user triggers and background schedulers orchestrate the multi-agent pipeline, external APIs, local storage, and the Streamlit dashboard:
+
+```mermaid
+graph TD
+    User([Streamlit Dashboard: app.py]) -->|Triggers Pipeline| Main[Orchestrator: main.py]
+    Scheduler[Background Scheduler: scheduler.py] -->|Periodic Trigger| Main
+    
+    subgraph Agents [Multi-Agent Pipeline]
+        Main -->|1. Fetch Data| Collector[Collector Agent: collector.py]
+        Collector -->|Fetch Quotes & News| Finnhub[(Finnhub API)]
+        
+        Main -->|2. Check Boundaries| Threshold[Threshold Agent: threshold.py]
+        Main -->|3. Statistical Check| Anomaly[Anomaly Agent: anomaly.py]
+        Main -->|4. AI Processing| Sentiment[Sentiment Agent: sentiment.py]
+        Sentiment -->|Analyze Headlines| OpenAI[(OpenAI API)]
+        
+        Main -->|5. Route Alerts| Dispatcher[Dispatcher Agent: dispatcher.py]
+    end
+
+    Main -->|6. Persist Logs| DB[(SQLite Database: database.py)]
+    DB -->|Fetch Trends & Logs| User
+
+The following diagram illustrates how user triggers and background schedulers orchestrate the multi-agent pipeline, external APIs, local storage, and the Streamlit dashboard:
+
+```mermaid
+graph TD
+    User([Streamlit Dashboard: app.py]) -->|Triggers Pipeline| Main[Orchestrator: main.py]
+    Scheduler[Background Scheduler: scheduler.py] -->|Periodic Trigger| Main
+    
+    subgraph Agents [Multi-Agent Pipeline]
+        Main -->|1. Fetch Data| Collector[Collector Agent: collector.py]
+        Collector -->|Fetch Quotes & News| Finnhub[(Finnhub API)]
+        
+        Main -->|2. Check Boundaries| Threshold[Threshold Agent: threshold.py]
+        Main -->|3. Statistical Check| Anomaly[Anomaly Agent: anomaly.py]
+        Main -->|4. AI Processing| Sentiment[Sentiment Agent: sentiment.py]
+        Sentiment -->|Analyze Headlines| OpenAI[(OpenAI API)]
+        
+        Main -->|5. Route Alerts| Dispatcher[Dispatcher Agent: dispatcher.py]
+    end
+
+    Main -->|6. Persist Logs| DB[(SQLite Database: database.py)]
+    DB -->|Fetch Trends & Logs| User
+
