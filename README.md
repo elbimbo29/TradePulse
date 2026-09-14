@@ -72,3 +72,36 @@ graph TD
 
     Main -->|6. Persist Logs| DB[(SQLite Database: database.py)]
     DB -->|Fetch Trends & Logs| User
+```
+---
+## ⚙️ Installation & Setup
+
+1. **Clone the Repository:**
+   ```bash
+   git clone [https://github.com/elbimbo29/TradePulse.git](https://github.com/elbimbo29/TradePulse.git)
+   cd TradePulse
+ 2. **Create and Activate a Virtual Environment:**
+   ```bash
+   python -m venv venv
+   # On Windows:
+   venv\Scripts\activate
+   # On macOS/Linux:
+   source venv/bin/activate
+3. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
+4. **Configure Environment Variables:**
+   Create a `.env` file in the root directory and add your API keys:
+   ```env
+   FINNHUB_API_KEY=your_finnhub_api_key_here
+   OPENAI_API_KEY=your_openai_api_key_here  
+
+## 🚀 Running the Dashboard
+
+Launch the Streamlit monitoring interface locally:
+
+```bash
+streamlit run app.py
+
+```
+---
