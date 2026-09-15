@@ -132,7 +132,7 @@ with tab1:
                 ).upper()
                 article_count = sentiment.get("articles_analyzed", sentiment.get("article_count", 0))
                 summary = (
-					sentiment.get("analysis")
+                    sentiment.get("analysis")
                     or sentiment.get("summary")
                     or sentiment.get("ai_summary")
                     or sentiment.get("market_diagnosis")
@@ -148,8 +148,12 @@ with tab1:
                         right.error(summary)
                     else:
                         right.info(summary)
-                        
-        st.json(st.session_state["pipeline_output"])
+            
+            # Render the automated financial disclaimer injected from the backend pipeline gateway layer
+            if "disclaimer" in data:
+                st.caption(f"⚠️ *{data['disclaimer']}*")
+                
+            st.json(st.session_state["pipeline_output"])
 
 # ========================================== 
 # Tab 2: Live Database Log & Trends
