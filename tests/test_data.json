@@ -1,0 +1,26 @@
+[
+  {
+    "id": "bullish_scenario",
+    "input": "NVIDIA posted a 40% surging revenue increase driven by high demand for AI hardware.",
+    "actual_output": "{\"ticker\": \"NVDA\", \"sentiment\": \"BULLISH\", \"confidence\": 0.95, \"summary\": \"NVIDIA posted a 40% revenue increase driven by strong demand for AI hardware.\", \"disclaimer\": \"Automated market analysis - not financial advice.\"}",
+    "context": [
+      "NVIDIA quarterly report: Revenue surged 40% year-over-year fueled by enterprise AI chip demand."
+    ]
+  },
+  {
+    "id": "bearish_scenario",
+    "input": "Company X saw a 20% drop in revenue following regulatory delays.",
+    "actual_output": "{\"ticker\": \"COMPX\", \"sentiment\": \"BEARISH\", \"confidence\": 0.88, \"summary\": \"Company X reported a 20% decline in revenue due to regulatory setbacks.\", \"disclaimer\": \"Automated market analysis - not financial advice.\"}",
+    "context": [
+      "Company X press release: Revenue fell 20% amid delays in regulatory approvals."
+    ]
+  },
+  {
+    "id": "database_persistence_scenario",
+    "input": "Extract record for: Tesla (TSLA) quarterly operational updates shows high delivery numbers.",
+    "actual_output": "{\"ticker\": \"TSLA\", \"sentiment\": \"BULLISH\", \"confidence\": 0.92, \"summary\": \"Tesla reported high delivery numbers in quarterly updates.\", \"disclaimer\": \"Automated market analysis - not financial advice.\"}",
+    "context": [
+      "Tesla quarterly report: TSLA vehicle deliveries exceeded market estimates."
+    ]
+  }
+]

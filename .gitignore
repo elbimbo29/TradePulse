@@ -1,6 +1,15 @@
 venv/
-.env
-__pycache__/
-*.db
 *.pyc
 .streamlit/
+
+# Environment & Secrets
+.env
+
+# Python Cache & Testing
+__pycache__/
+.pytest_cache/
+.deepeval/
+
+# Local DB & Data Stores
+*.db
+sqlite/
