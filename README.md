@@ -78,7 +78,7 @@ TradePulse/
 
 DeepEval tests verify that LLM outputs conform to required JSON schemas and include necessary structural fields like financial disclaimers and sentiment analysis[cite: 5].
 
-![Database Integrity Test Results](docs/Terminal-DB_integrity.jpg)
+![Database Integrity Test Results](docs/Terminal-DB_Integrity.jpg)
 
 ### ⚖️ LLM Evaluation via DeepEval
 
