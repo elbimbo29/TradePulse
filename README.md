@@ -4,19 +4,6 @@ A full-stack observability and evaluation pipeline for Large Language Model (LLM
 
 ---
 
-## Architecture & Pipeline
-
-TradePulse follows a modular multi-agent pipeline orchestrated via `main.py`:
-
-1. **Collector Agent (`agents/collector.py`):** Fetches real-time stock quotes and recent financial news articles using the Finnhub API.
-2. **Anomaly Agent (`agents/anomaly.py`):** Evaluates incoming market data against statistical bounds and variance rules to flag unusual behavior.
-3. **Threshold Agent (`agents/threshold.py`):** Enforces strict user-defined price boundaries (minimum and maximum limits set in the sidebar) to trigger alerts.
-4. **Sentiment Agent (`agents/sentiment.py`):** Passes collected news headlines through OpenAI to perform market diagnosis and categorize sentiment (Bullish, Bearish, or Neutral).
-5. **Dispatcher Agent (`agents/dispatcher.py`):** Manages alert routing and communications across pipeline components based on anomaly and threshold flags.
-6. **Database Agent (`database.py`):** Persists metrics, price tracking histories, and sentiment logs locally into SQLite (`tradepulse.db`).
-7. **Background Scheduler (`scheduler.py`):** Handles automated, periodic background polling of the pipeline outside of manual UI triggers.
-8. **Monitoring Interface (`app.py`):** A Streamlit dashboard featuring manual pipeline triggers, interactive Plotly charts with threshold overlays, live auto-refresh logs, and CSV export tools.
-
 ## 🏗️ Architecture Overview
 
                ┌──────────────────────────────────────────┐
@@ -89,36 +76,44 @@ TradePulse/
 ## ⚙️ Installation & Setup
 
 1. **Clone the Repository:**
-   ```bash
-   git clone [https://github.com/elbimbo29/TradePulse.git](https://github.com/elbimbo29/TradePulse.git)
-   cd TradePulse
- 2. **Create and Activate a Virtual Environment:**
-   ```bash
-   python -m venv venv
-   # On Windows:
-   venv\Scripts\activate
-   # On macOS/Linux:
-   source venv/bin/activate
-3. **Install Dependencies:**
-   ```bash
-   pip install -r requirements.txt
-4. **Configure Environment Variables:**
-   Create a `.env` file in the root directory and add your API keys:
-   ```env
-   FINNHUB_API_KEY=your_finnhub_api_key_here
-   OPENAI_API_KEY=your_openai_api_key_here  
----
-```bash
-### **1. Spin Up Observability Stack**
 
-Ensure Docker Desktop is running, then spin up the containerized telemetry infrastructure:
+```bash
+git clone [https://github.com/elbimbo29/TradePulse.git](https://github.com/elbimbo29/TradePulse.git)
+cd TradePulse
+```
+
+2. **Create and Activate a Virtual Environment:**
 
 ```powershell
-docker compose up -d
----
+python -m venv venv
+
+# On Windows:
+.\venv\Scripts\Activate.ps1
+
+# On macOS/Linux:
+source venv/bin/activate
 ```
-### **2. Running Telemetry Tests**
+
+3. **Install Dependencies:**
+
 ```bash
+pip install -r requirements.txt
+```
+
+4. **Configure Environment Variables:**
+
+Create a `.env` file in the root directory:
+
+```env
+FINNHUB_API_KEY=your_finnhub_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here
+```
+---
+
+## 🚀 Running the Stack & Tests
+
+### **2. Running Telemetry Tests**
+```text
 Execute your telemetry initialization test script or run the integration suite via `pytest`:
 
 ```powershell
@@ -127,3 +122,4 @@ python run_telemetry_tests.py
 
 # Or run via pytest
 pytest -v test_stack_components.py
+**
