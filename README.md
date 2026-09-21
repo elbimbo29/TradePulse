@@ -1,6 +1,6 @@
-# TradePulse 🚀
+# ⚡ TradePulse - LLM Test Pipeline Observability
 
-TradePulse is a multi-agent financial monitoring dashboard built with Python, Streamlit, SQLite, Finnhub, and OpenAI. It orchestrates automated data collection, custom threshold breach detection, AI-powered news sentiment analysis, and real-time database logging into a clean, interactive user interface.
+A full-stack observability and evaluation pipeline for Large Language Model (LLM) testing suites. This project integrates Python-based LLM testing and validation frameworks with an OpenTelemetry-driven telemetry stack, fully dockerized with **Tempo**, **Loki**, **Prometheus**, and **Grafana**.
 
 ---
 
@@ -16,6 +16,30 @@ TradePulse follows a modular multi-agent pipeline orchestrated via `main.py`:
 6. **Database Agent (`database.py`):** Persists metrics, price tracking histories, and sentiment logs locally into SQLite (`tradepulse.db`).
 7. **Background Scheduler (`scheduler.py`):** Handles automated, periodic background polling of the pipeline outside of manual UI triggers.
 8. **Monitoring Interface (`app.py`):** A Streamlit dashboard featuring manual pipeline triggers, interactive Plotly charts with threshold overlays, live auto-refresh logs, and CSV export tools.
+
+## 🏗️ Architecture Overview
+
+               ┌──────────────────────────────────────────┐
+               │        Python Test Pipeline              │
+               │ (pytest, DeepEval, Guardrails, Tenacity) │
+               └────────────────────┬─────────────────────┘
+                                    │ OTLP (gRPC / 4317)
+                                    ▼
+               ┌──────────────────────────────────────────┐
+               │    OpenTelemetry Collector (Contrib)     │
+               └──────┬─────────────┬──────────────┬──────┘
+                      │             │              │
+         Traces (OTLP)│  Logs (OTLP)│  Metrics     │
+                      ▼             ▼              ▼
+                 ┌─────────┐   ┌─────────┐   ┌────────────┐
+                 │  Tempo  │   │  Loki   │   │ Prometheus │
+                 └────┬────┘   └────┬────┘   └─────┬──────┘
+                      │             │              │
+                      └─────────────┼──────────────┘
+                                    ▼
+                             ┌────────────┐
+                             │  Grafana   │
+                             └────────────┘
 
 ---
 
@@ -36,44 +60,32 @@ TradePulse/
 ├── main.py              # Pipeline orchestrator
 ├── requirements.txt     # Python project dependencies
 └── scheduler.py         # Automated background polling scheduler
+├── docker-compose.yml          # Observability infrastructure services
+├── otel-collector-config.yaml  # OTel pipeline routing rules (Traces, Metrics, Logs)
+├── telemetry_config.py         # OTel Python SDK initialization helper
+├── run_telemetry_tests.py      # Telemetry pipeline verification script
+├── test_stack_components.py    # Full integration test suite
+└── README.md                   # Project documentation
 ```
 ---
 ## 🛠️ Tech Stack
 
-* **Core Language:** Python 3.10+
-* **Dashboard & UI:** [Streamlit](https://streamlit.io/) (interactive widgets, state management, real-time layout)
-* **Data Processing & Manipulation:** [Pandas](https://pandas.pydata.org/) (dataframe formatting, SQLite query mapping, time-series organization)
-* **Data Persistence:** SQLite (`sqlite3`) for local, lightweight transactional logging
-* **Financial Data Provider:** [Finnhub API](https://finnhub.io/) (live stock quotes and recent financial news feeds)
-* **AI & NLP Intelligence:** [OpenAI API](https://openai.com/) (automated news sentiment classification and market diagnosis)
-* **Data Visualization:** [Plotly](https://plotly.com/) (interactive time-series charts, dynamic threshold overlays)
-* **Version Control & Collaboration:** Git & GitHub
+### **Python Test Suite & Utilities**
+* **`pytest`**: Test runner and execution orchestration.
+* **`DeepEval`**: LLM evaluation framework measuring model metrics (faithfulness, confidence scores, answer relevancy).
+* **`Guardrails`**: Input/output validation and schema enforcement.
+* **`Tenacity`**: Retry resilience and backoff handling for API calls.
+* **`structlog`**: Structured JSON logging correlated with OpenTelemetry trace context.
+* **`python-dotenv`**: Environment variable management.
 
+### **Observability Stack (Dockerized)**
+* **OpenTelemetry Collector**: Unified telemetry ingest pipeline routing signals via OTLP.
+* **Grafana Tempo**: Distributed tracing for multi-attempt LLM executions and span timing.
+* **Grafana Loki**: Centralized log aggregation with trace-id injection.
+* **Prometheus**: Time-series database storing test pass/fail rates and evaluation score distributions.
+* **Grafana**: Single pane of glass for unified dashboards and cross-signal correlation.
 ---
 
-## 📐 Architecture Diagram
-
-```mermaid
-graph TD
-    User([Streamlit Dashboard: app.py]) -->|Triggers Pipeline| Main[Orchestrator: main.py]
-    Scheduler[Background Scheduler: scheduler.py] -->|Periodic Trigger| Main
-    
-    subgraph Agents [Multi-Agent Pipeline]
-        Main -->|1. Fetch Data| Collector[Collector Agent: collector.py]
-        Collector -->|Fetch Quotes & News| Finnhub[(Finnhub API)]
-        
-        Main -->|2. Check Boundaries| Threshold[Threshold Agent: threshold.py]
-        Main -->|3. Statistical Check| Anomaly[Anomaly Agent: anomaly.py]
-        Main -->|4. AI Processing| Sentiment[Sentiment Agent: sentiment.py]
-        Sentiment -->|Analyze Headlines| OpenAI[(OpenAI API)]
-        
-        Main -->|5. Route Alerts| Dispatcher[Dispatcher Agent: dispatcher.py]
-    end
-
-    Main -->|6. Persist Logs| DB[(SQLite Database: database.py)]
-    DB -->|Fetch Trends & Logs| User
-```
----
 ## ⚙️ Installation & Setup
 
 1. **Clone the Repository:**
@@ -95,13 +107,23 @@ graph TD
    ```env
    FINNHUB_API_KEY=your_finnhub_api_key_here
    OPENAI_API_KEY=your_openai_api_key_here  
-
-## 🚀 Running the Dashboard
-
-Launch the Streamlit monitoring interface locally:
-
-```bash
-streamlit run app.py
-
-```
 ---
+```bash
+### **1. Spin Up Observability Stack**
+
+Ensure Docker Desktop is running, then spin up the containerized telemetry infrastructure:
+
+```powershell
+docker compose up -d
+---
+```
+### **2. Running Telemetry Tests**
+```bash
+Execute your telemetry initialization test script or run the integration suite via `pytest`:
+
+```powershell
+# Run telemetry test script
+python run_telemetry_tests.py
+
+# Or run via pytest
+pytest -v test_stack_components.py

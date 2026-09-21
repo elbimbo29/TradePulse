@@ -4,12 +4,24 @@ venv/
 
 # Environment & Secrets
 .env
+*.env
 
-# Python Cache & Testing
+# Python Cache & Bytecode
 __pycache__/
+*.py[cod]
+*$py.class
 .pytest_cache/
 .deepeval/
 
 # Local DB & Data Stores
 *.db
 sqlite/
+
+
+# IDE / Editor Files
+.vscode/
+.idea/
+
+# OS Files
+Thumbs.db
+Desktop.ini

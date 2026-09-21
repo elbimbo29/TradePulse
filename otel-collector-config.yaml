@@ -1,4 +1,3 @@
-# otel-collector-config.yaml
 receivers:
   otlp:
     protocols:
@@ -7,23 +6,32 @@ receivers:
       grpc:
         endpoint: 0.0.0.0:4317
 
-processors:
-  batch:
-
 exporters:
   prometheus:
     endpoint: "0.0.0.0:8889"
-    namespace: "tradepulse"
+    namespace: "deepeval"
+
+  otlp/tempo:
+    endpoint: "tempo:4317"
+    tls:
+      insecure: true
+
+  otlphttp/loki:
+    endpoint: "http://tradepulse-loki:3100/otlp"
+    tls:
+      insecure: true
+
   debug:
     verbosity: detailed
 
 service:
   pipelines:
-    metrics:
-      receivers: [otlp]
-      processors: [batch]
-      exporters: [prometheus, debug]
     traces:
       receivers: [otlp]
-      processors: [batch]
-      exporters: [debug]
+      exporters: [otlp/tempo, debug]
+    metrics:
+      receivers: [otlp]
+      exporters: [prometheus, debug]
+    logs:
+      receivers: [otlp]
+      exporters: [otlphttp/loki, debug]
