@@ -72,7 +72,50 @@ TradePulse/
 * **Prometheus**: Time-series database storing test pass/fail rates and evaluation score distributions.
 * **Grafana**: Single pane of glass for unified dashboards and cross-signal correlation.
 ---
+## 📊 Grafana Features & Navigation
 
+### 💾 Database Schema & Output Integrity Testing
+
+DeepEval tests verify that LLM outputs conform to required JSON schemas and include necessary structural fields like financial disclaimers and sentiment analysis[cite: 5].
+
+![Database Integrity Test Results](docs/Terminal-DB_integrity.jpg)
+
+### ⚖️ LLM Evaluation via DeepEval
+
+DeepEval evaluates LLM response quality using custom criteria metrics (e.g., Sentiment Accuracy, Hallucination checks) powered by synthetic LLM-as-a-judge reasoning[cite: 6].
+
+![DeepEval Sentiment Evaluation](docs/Terminal-DeepEval.jpg)
+
+### 🛡️ Guardrails Validation & Security Interception
+
+Automated runtime guardrails validate input prompt integrity and intercept malicious prompt injection attempts before LLM processing[cite: 7].
+
+![Guardrails Validation Output](docs/Terminal-Guardrail.jpg)
+
+### 🕵️ Distributed Traces in Grafana Tempo
+
+Distributed tracing captures test execution lifecycles, execution durations, and retry attempts across test scenarios[cite: 4].
+
+![Grafana Tempo Trace Explorer](docs/Grafana-Tempo_Trace.jpg)
+
+### 📝 Structured Logging in Grafana Loki
+
+Loki aggregates structured telemetry logs emitted during execution, formatted with severity labels and trace attributes[cite: 2].
+
+![Grafana Loki Log Viewer](docs/Grafana-Loki_Logs.jpg)
+
+### 📈 Scraping & Target Telemetry in Prometheus
+
+Prometheus collects target availability metrics and execution sampling times across test runs[cite: 1].
+
+![Prometheus Target Telemetry](docs/Grafana-Prometheus_Metrics1.jpg)
+
+### 📊 Model Confidence Score Metrics in Prometheus
+
+Custom OpenTelemetry counters and histograms track model evaluation confidence scores and bucket distributions across market scenarios[cite: 3].
+
+![Prometheus Model Score Buckets](docs/Grafana-Prometheus_Metrics2.jpg)
+---
 ## ⚙️ Installation & Setup
 
 1. **Clone the Repository:**
