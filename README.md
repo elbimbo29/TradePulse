@@ -72,7 +72,7 @@ TradePulse/
 * **Prometheus**: Time-series database storing test pass/fail rates and evaluation score distributions.
 * **Grafana**: Single pane of glass for unified dashboards and cross-signal correlation.
 ---
-## 📊 Grafana Features & Navigation
+## 📊 Terminal and Grafana Features & Navigation
 
 ### 💾 Database Schema & Output Integrity Testing
 
