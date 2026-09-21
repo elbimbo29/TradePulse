@@ -168,3 +168,28 @@ pytest -v test_stack_components.py
 **
 ```
 ---
+
+## 🤝 Contributing
+
+Contributions are welcome! If you'd like to improve the testing suite, add new Guardrail validators, or enhance the OTel pipeline:
+
+1. Fork the repository.
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`).
+4. Push to the branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License - see the `LICENSE` file for details.
+
+---
+
+## 🙏 Acknowledgments & Resources
+
+* [OpenTelemetry Documentation](https://opentelemetry.io/docs/)
+* [DeepEval LLM Evaluation Framework](https://github.com/confident-ai/deepeval)
+* [Guardrails AI](https://github.com/guardrails-ai/guardrails)
+* [Grafana Tempo & Loki Docs](https://grafana.com/docs/)
